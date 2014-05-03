@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# Nagios plugin for FreeBSD lagg interface.
+#
+# Alert when a lagg failover interface has failed-over to a slave port.
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+PROGNAME=`basename "$0"`
+PROGPATH=`echo "$0" | sed -e 's,[\\/][^\\/][^\\/]*$,,'`
+REVISION="1.0"
+
+. $PROGPATH/utils.sh
+
+print_usage() {
+	echo "Usage: $PROGNAME interface"
+	echo "Usage: $PROGNAME --help"
+	echo "Usage: $PROGNAME --version"
+}
+
+print_help() {
+	echo "$PROGNAME v$REVISION"
+	echo ""
+	print_usage
+	echo ""
+	echo "Alert when a lagg failover interface has failed-over to a slave port."
+	echo ""
+	echo "Send email to jp@galea.se if you have questions, patches or suggestions."
+}
+
+if [ $# -lt 1 ] ; then
+	print_usage
+	exit $STATE_UNKNOWN
+fi
+
+case "$1" in
+	--help)
+		print_help
+		exit $STATE_OK
+		;;
+	--version)
+		echo "$PROGNAME v$REVISION"
+		exit $STATE_OK
+		;;
+	-*)
+		print_usage
+		exit $STATE_UNKNOWN
+esac
+
+iface=$1
+
+if ! ifconfig "$iface" 1>/dev/null 2>/dev/null ; then
+	echo "WARN - interface $iface does not exist!"
+	exit $STATE_WARNING
+fi
+
+if ! ifconfig "$iface" | grep -Fq "laggproto failover" ; then
+	echo "WARN - $iface is not a link failover interface!"
+	exit $STATE_WARNING
+fi
+
+if ! ifconfig "$iface" | grep -F "laggport: " | grep -Fq "MASTER,ACTIVE" ; then
+	echo "CRIT - $iface master port is not active!"
+	exit $STATE_CRITICAL
+fi
+
+echo "OK - $iface master port is active"
+exit $STATE_OK
