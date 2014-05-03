@@ -25,6 +25,12 @@ This check is meant to serve two purposes;
 	as there is no fail-over capability.
 
 
+Limitations
+-----------
+
+This plugin only works when the lagg interface is configured in "Failover Mode".
+
+
 Dependencies
 ------------
 
@@ -36,22 +42,23 @@ Installation
 
 Copy `check_lagg_failover` to `/usr/local/libexec/nagios/check_lagg_failover`
 
-```sh
+Then set ownership and permissions;
+```
 chown root:wheel /usr/local/libexec/nagios/check_lagg_failover
 chmod 0555       /usr/local/libexec/nagios/check_lagg_failover
 ```
 
-Example
+Examples
 -------
 
-```sh
+```
 ~$ /usr/local/libexec/nagios/check_lagg_failover lagg0
 OK - lagg0 master port is active
 ~$ echo $?
 0
 ```
 
-```sh
+```
 ~$ /usr/local/libexec/nagios/check_lagg_failover igb0
 WARN - igb0 is not a link failover interface!
 ~$ echo $?
@@ -66,8 +73,5 @@ although it should work with any number of ports.
 
 Tested on FreeBSD 9.2-RELEASE-p5.
 
-
-Limitations
------------
-
-This plugin only works when the lagg interface is configured in "Failover Mode".
+If you can confirm this plugin to work with other versions or configurations,
+please contact me so I can update this section. Thank you!
