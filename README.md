@@ -36,7 +36,7 @@ Installation
 
 Copy `check_lagg_failover` to `/usr/local/libexec/nagios/check_lagg_failover`
 
-```
+```sh
 chown root:wheel /usr/local/libexec/nagios/check_lagg_failover
 chmod 0555       /usr/local/libexec/nagios/check_lagg_failover
 ```
@@ -44,9 +44,18 @@ chmod 0555       /usr/local/libexec/nagios/check_lagg_failover
 Example
 -------
 
-```
-/usr/local/libexec/nagios/check_lagg_failover lagg0
+```sh
+~$ /usr/local/libexec/nagios/check_lagg_failover lagg0
 OK - lagg0 master port is active
+~$ echo $?
+0
+```
+
+```sh
+~$ /usr/local/libexec/nagios/check_lagg_failover igb0
+WARN - igb0 is not a link failover interface!
+~$ echo $?
+1
 ```
 
 Testing
