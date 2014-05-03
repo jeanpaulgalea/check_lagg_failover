@@ -1,13 +1,11 @@
 check_lagg_failover
 ===================
 
-Nagios plugin for FreeBSD lagg interface.
+Nagios plugin for FreeBSD lagg failover interface.
 
 Alert when a lagg failover interface has failed-over to a slave port.
 
-This plugin only works when the lagg interface is configured in "Failover Mode".
-
-For more information about lagg interfaces;  
+For more information about lagg interfaces in general;  
 http://www.freebsd.org/doc/handbook/network-aggregation.html
 
 This check is meant to serve two purposes;
@@ -58,3 +56,9 @@ Tested with a lagg interface consisting of two ports ("laggport"),
 although it should work with any number of ports.
 
 Tested on FreeBSD 9.2-RELEASE-p5.
+
+
+Limitations
+-----------
+
+This plugin only works when the lagg interface is configured in "Failover Mode".

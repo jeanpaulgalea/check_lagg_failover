@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Nagios plugin for FreeBSD lagg interface.
+# Nagios plugin for FreeBSD lagg failover interface.
 #
 # Alert when a lagg failover interface has failed-over to a slave port.
 
